@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- vim: foldmethod=marker 
+<!DOCTYPE html><!-- vim: foldmethod=marker
 -->
 <html>
 <!-- TODO:
@@ -6,7 +6,9 @@
 
 
     - From #python, halloween:
-        <umadbor> I had two values. A base and a height. Base ranges from 2 to 10 and Height ranges from 2 to 12. They go by intervals of 2. So I need to print all possibilities. Ex. 2 x 2, 2 x 4 , 2 x 6, 2 x 8, 2 x 10, 2 x 12, 4 x 2, 4 x 4, etc.
+        <umadbor> I had two values. A base and a height. Base ranges from 2 to 10 and Height ranges from 2 to 12. 
+                    They go by intervals of 2. So I need to print all possibilities. 
+                    Ex. 2 x 2, 2 x 4 , 2 x 6, 2 x 8, 2 x 10, 2 x 12, 4 x 2, 4 x 4, etc.
         <umadbor> How can I write that in one for loop?
         <tos9> umadbor: for base, height in itertools.product(xrange(2, 12, 2), xrange(2, 10, 2)): ...
         <umadbor> ooo for loop can have 2 things in it like that?
@@ -21,10 +23,13 @@
 
         "instead of:  for thing in iterable: yield compute(result)"
 
-
     - From #python, 11/11:
 
-        <hansz> I'd like to create a filter by list comprehension, but the conditions vary; that is, I would like to have something like (a for a in l if cond1(a) and cond2(a) and ... and condn(a)), where cond1...condn vary and may change before filtering starts. Any ideas what a proper way of doing it would be? Functional programming maybe?
+        <hansz> I'd like to create a filter by list comprehension, but the conditions vary;
+                        that is, I would like to have something like
+                        (a for a in l if cond1(a) and cond2(a) and ... and condn(a)),
+                        where cond1...condn vary and may change before filtering starts.
+                        Any ideas what a proper way of doing it would be? Functional programming maybe?
         <nedbat> hansz: you can build a pipeline of generator expressions.
         <hansz> nedbat: how?
         <nedbat> hansz: like this: http://paste.pound-python.org/show/27638/
@@ -40,7 +45,8 @@
 
 
     - From #python, 11/18:
-        <kavelot> when I do a for(i in range(10)), i=9 when the loop is over (if there's no break)... in a "C-style for" (for(i=0; i<10; i++)), i would be 10... is there a way to replicate this behavior in python?
+        <kavelot> when I do a for(i in range(10)), i=9 when the loop is over (if there's no break)...
+                    in a "C-style for" (for(i=0; i<10; i++)), i would be 10... is there a way to replicate this behavior in python?
         <nedbat> kavelot: can you help me understand why you want that?
         <Remram> kavelot, no?
         <kavelot> nedbat: it's a common way to find out if the loop was "broke" or not
@@ -74,8 +80,8 @@
 
         https://gist.github.com/4277424
 
-            # A logarithmic generator: 1, 2, …, 8, 9, 10, 20, 30, …, 80, 90, 100, 200, …. 
-            # Especially useful those times when you want to see how a function behaves over 
+            # A logarithmic generator: 1, 2, …, 8, 9, 10, 20, 30, …, 80, 90, 100, 200, ….
+            # Especially useful those times when you want to see how a function behaves over
             # a wide range of numbers but don't want to have to actually look at all of those numbers.
 
             def log_gen(n):
@@ -109,12 +115,20 @@
             ids = itertools.count()
 
             def __init__(self):
-                self.serial_number = next(ids)
+                self.serial_number = next(self.ids)
                 ...
 
+    - Hehe:
+
+        tall_buildings = [('Empire State', 110), ('Petronas Towers', 120), ...]
+
+        tallest = max(height for name, height in tall_buildings)
+
+        Now you can loop tall buildings in a single bound....
 
 
-
+    - Fonts:
+        http://www.google.com/webfonts/specimen/Source+Sans+Pro
 
 -->
 <!-- *** Head stuff {{{ -->
@@ -142,7 +156,7 @@
     <script type="text/javascript" src="lineselect.js"></script>
 
 <!-- http://html.adobe.com/edge/webfonts/ -->
-    <script src="http://use.edgefonts.net/open-sans-condensed.js"></script> 
+    <script src="http://use.edgefonts.net/open-sans-condensed.js"></script>
     <script src="http://use.edgefonts.net/titan-one.js"></script>
     <!-- }}} -->
 
@@ -206,13 +220,12 @@
             line-height: 1.5;
             text-align: left
         }
-h1 {
-  font-family: open-sans-condensed, serif;
-} 
+        h1 {
+            font-family: open-sans-condensed, serif;
+        }
 
         .slide.title h1 {
-  font-family: titan-one, serif;
-
+            font-family: titan-one, serif;
             margin-top: 3em;
             font-size: 200%;
             text-align: center;
