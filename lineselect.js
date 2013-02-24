@@ -72,7 +72,7 @@
             return;
 
         default:
-            console.log('down: ' + e.keyCode);
+            //console.log('down: ' + e.keyCode);
             return;
         }
 
