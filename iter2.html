@@ -185,6 +185,7 @@
             $('pre').each(function (i, e) {
                 var $e = $(e);
                 var h = $e.html();
+                h = h.replace(/\n\n/g, "\n \n");
                 h = h.replace(/\n/g, "</span>\n<span class='line'>");
                 h = "<span class='line'>" + h + "</span>";
                 $e.html(h);
@@ -232,7 +233,7 @@
         }
         .slide.title h2 {
             text-align: center;
-            font-size: 100%;
+            font-size: 125%;
             color: #666;
             margin-top: 2em;
         }
@@ -270,13 +271,17 @@
             background: #cfc;
         }
 
+        pre .selected {
+            background: #88f;
+        }
+
+        pre.python .selected {
+            background: #6f6;
+        }
+
         .slide li {
             list-style: none;
             margin-top: .5em;
-        }
-
-        .selected {
-            background: yellow;
         }
     </style>
 </head>
@@ -315,15 +320,15 @@
 <div class="slide">
     <h1>tl;dr</h1>
     <p>Iteration is everywhere</p>
-    <p>Talk about what you want</p>
-    <p>Write more iteration abstractions</p>
+    <p>Be direct</p>
+    <p>Write more abstractions</p>
 </div>
 
 <div class="slide">
     <h1>Iteration</h1>
     <pre class="python incremental">
     i = 0
-    while i < len(my_list):
+    while i &lt; len(my_list):
         v = my_list[i]
         print v
         i += 1
@@ -405,6 +410,7 @@
 <div class="slide">
     <h1>Iterables</h1>
     <p>Objects decide how they will be iterated</p>
+    <p>Only one operation: next()</p>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -493,9 +499,9 @@
     <h1>Files &rArr; lines</h1>
     <p>Files give lines of text.</p>
     <pre class="python">
-    f = open("gettysburg.txt")
-    for line in f:
-        print repr(line)
+    with open("gettysburg.txt") as f:
+        for line in f:
+            print repr(line)
     </pre>
     <pre>
     'Four-score and seven years ago,\n'
@@ -604,15 +610,19 @@
 
 <div class="slide">
     <h1>How do I get the index?</h1>
+    <p>No:</p>
     <pre class="python">
     for i in range(len(my_list)):
         v = my_list[i]
         print i, v
     </pre>
-    <pre class="python incremental">
+    <div class='incremental'>
+    <p>Yes:</p>
+    <pre class="python">
     for i, v in enumerate(my_list):
         print i, v
     </pre>
+    </div>
 </div>
 
 <div class="slide">
@@ -682,14 +692,14 @@
     for a, b in my_pairs:
         print "%s + %s == %s" % (a, b, a+b)
     </pre>
-    <pre class="python">
+    <pre class="python incremental">
     a, b = (1, 2)
         print ...
     a, b = (3, 4)
         print ...
     ...
     </pre>
-    <pre>
+    <pre class="incremental">
     1 + 2 == 3
     3 + 4 == 7
     5 + 6 == 11
@@ -721,26 +731,27 @@
 
 <div class="slide">
     <h1>enumerate() makes useful pairs</h1>
-    <pre class="python">
-    names = ["Anne", "Betty", "Carla"]
-    for pair in enumerate(names):
-        print pair
-    </pre>
-    <pre>
-    (0, 'Anne')
-    (1, 'Betty')
-    (2, 'Carla')
-    </pre>
-    <pre class="python">
-    names = ["Anne", "Betty", "Carla"]
-    for num, name in enumerate(names):
-        print num, name
-    </pre>
-    <pre>
-    0 Anne
-    1 Betty
-    2 Carla
-    </pre>
+    <div class='incremental'>
+        <pre class="python">
+        names = ["Anne", "Betty", "Carla"]
+        list(enumerate(names))
+        </pre>
+        <pre>
+        [(0, 'Anne'), (1, 'Betty'), (2, 'Carla')]
+        </pre>
+    </div>
+    <div class='incremental'>
+        <pre class="python">
+        names = ["Anne", "Betty", "Carla"]
+        for num, name in enumerate(names):
+            print num, name
+        </pre>
+        <pre>
+        0 Anne
+        1 Betty
+        2 Carla
+        </pre>
+    </div>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -763,6 +774,24 @@
     to iterate over the values in a stream while also using their index.</p>
 
 </div><!-- }}} -->
+
+<div class="slide">
+    <h1>How do I loop over two lists?</h1>
+    <pre class="python">
+    names = ["Anne", "Betty", "Carla"]
+    ages = [27, 31, 24]
+
+    for i in range(len(names)):
+        name = names[i]
+        age = ages[i]
+        print "%s is %s years old" % (name, age)
+    </pre>
+    <pre class="no-highlight">
+    Anne is 27 years old
+    Betty is 31 years old
+    Carla is 24 years old
+    </pre>
+</div>
 
 <div class="slide">
     <h1>zip() makes pair-wise loops</h1>
@@ -820,9 +849,51 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>Generators: your own iterables</h1>
-    <p>Like a function, but creates an iterable</p>
+    <h1>Powerful</h1>
     <pre class="python">
+    tall_buildings = [
+        ("Empire State", 381), ("Sears Tower", 442),
+        ("Burj Khalifa", 828), ("Taipei 101", 509),
+        ...
+        ]
+    print max(ht for name, ht in tall_buildings)
+    </pre>
+    <pre>
+    828
+    </pre>
+    <pre class="python">
+    print max(tall_buildings, key=lambda pair: pair[1])
+    </pre>
+    <pre>
+    Burj Khalifa
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Make your own iteration</h1>
+    <pre class="python">
+    nums = [88, 73, 92, 72, 40, 38, 25, 20, 90, 72]
+    for n in nums:
+        if n % 2 == 0:
+            do_something(n)
+    </pre>
+    <pre class="python incremental">
+    def evens(seq):
+        them = []
+        for n in seq:
+            if n % 2 == 0:
+                them.append(x)
+        return them
+
+    for n in evens(nums):
+        do_something(n)
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Generators</h1>
+    <p>Functions return one value &mdash; Generators produce a stream</p>
+    <pre class="pythone">
     def hello_world():
         yield "Hello"
         yield "world"
@@ -858,6 +929,23 @@
 </div><!-- }}} -->
 
 <div class="slide">
+    <h1>Evens generator</h1>
+    <pre class="python">
+    def evens(seq):
+        for n in seq:
+            if n % 2 == 0:
+                yield n
+    </pre>
+    <pre class="python">
+    for n in evens(nums):
+        do_something(n)
+    </pre>
+
+</div>
+
+
+<!--
+<div class="slide">
     <h1>Generators</h1>
     <p>Calling the function creates an iterator</p>
     <p>Iterating the iterator calls the code</p>
@@ -873,6 +961,7 @@
     list(repeat("cat", 3)) == ["cat", "cat", "cat"]
     </pre>
 </div>
+-->
 
 <div class="text"><!-- {{{ -->
     <p>Generators can be confusing.  They look very similar to functions,
@@ -958,14 +1047,15 @@
             if not line:
                 continue
             yield line
+    </pre>
+    <pre class="python">
+    with open("my_config.ini") as f:
+        for line in interesting_lines(f):
+            do_something(line)
 
-    f = open("my_config.ini")
-    for line in interesting_lines(f):
-        do_something(line)
-
-    f2 = open("my_other.ini")
-    for line in interesting_lines(f2):
-        do_something_else(line)
+    with open("my_other.dat") as f2:
+        for line in interesting_lines(f2):
+            do_something_else(line)
     </pre>
 </div>
 
@@ -1000,16 +1090,16 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>Looping over a grid</h1>
+    <h1>How do I break out of two loops?</h1>
     <pre class="python">
     for row in range(height):
         for col in range(width):
 
-            value = spreadsheet.get_cell(col, row)
+            value = spreadsheet.get_value(col, row)
             do_something(value)
             
             if this_is_my_value(value):
-                break       # ??
+                break   # &larr; ???
     </pre>
 </div>
 
@@ -1031,21 +1121,22 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>Abstract away the double loop</h1>
+    <h1>Make the double loop single</h1>
     <pre class="python">
-    def twod_range(width, height):
+    def range_2d(width, height):
         """Produce a stream of two-D coordinates."""
         for y in range(height):
             for x in range(width):
-                yield (x, y)
-
-
-    for col, row in twod_range(width, height):
-        value = spreadsheet.get_cell(col, row)
+                yield x, y
+    </pre>
+    <pre class="python incremental">
+    for col, row in range_2d(width, height):
+        value = spreadsheet.get_value(col, row)
         do_something(value)
         
         if this_is_my_value(value):
-            break       # !!
+            break
+    </pre>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -1071,14 +1162,38 @@
 </div><!-- }}} -->
 
 <div class="slide">
+    <h1>Better: iterate cells</h1>
+    <pre class="python">
+    for cell in spreadsheet.all_cells():
+        value = cell.get_value()
+        do_something(value)
+
+        if this_is_my_value(value):
+            break
+    </pre>
+</div>
+
+
+<div class="slide">
     <h1>Low-level iteration</h1>
+    <p>next() gets the next value</p>
+    <pre class="python">
+    with open("blah.dat") as f:
+        header_line = next(f)
+        for data_line in f:
+            # ...
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Numbering objects</h1>
     <pre class="python">
     class Thing(object):
         serial = 0
 
         def __init__(self):
-            self.num = self.serial
-            self.serial += 1
+            self.num = Thing.serial
+            Thing.serial += 1
     </pre>
     <pre class="python">
     class Thing(object):
@@ -1089,6 +1204,46 @@
     </pre>
 
 </div>
+
+<div class="slide">
+    <h1>Making your object iterable</h1>
+    <pre class="python">
+    class TreasureChest(object):
+        def __init__(self):
+            self.contents = []
+
+        def __iter__(self):
+            return iter(self.contents)
+    </pre>
+    <pre class="python">
+    chest = TreasureChest()
+    ...
+    for treasures in chest:
+        # ...
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>__iter__ generators</h1>
+    <pre class="python">
+    class ToDoList(object):
+        def __init__(self):
+            self.tasks = []
+
+        def __iter__(self):
+            for task in self.tasks:
+                if not task.done:
+                    yield task
+
+        def all(self):
+            return iter(self.tasks)
+
+        def done(self):
+            return (t for t in self.tasks if t.done)
+    </pre>
+    
+</div>
+
 
 <div class="slide">
     <h1>Other topics</h1>
