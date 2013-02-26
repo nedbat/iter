@@ -338,7 +338,7 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>tl;dr</h1>
+    <h1>tl;dl</h1>
     <p>Iteration is everywhere</p>
     <p>Be direct</p>
     <p>Write more abstractions</p>
@@ -1370,6 +1370,11 @@
     value = next(iterator)
     </pre>
     <p>Only operation on iterators is next()</p>
+    <!--
+    <pre class="python">
+    for v in iterable:
+        something(v)
+    </pre>
     <pre class="python">
     _iterator = iter(iterable)
     while True:
@@ -1380,11 +1385,12 @@
         else:
             something(v)
     </pre>
+    -->
 </div>
 
 <div class="text"><!-- {{{ -->
-    <p>Before we talk about how to make your objects iterable, a quick word about the
-    low-level mechanics of iteration.</p>
+    <p>Before we talk about how to make your objects iterable, a quick word
+    about the low-level mechanics of iteration.</p>
 
     <p>There are really two kinds of objects involved in iteration you need to
     know about.  We've been talking about iterables, which are objects that
@@ -1394,18 +1400,19 @@
     current position within that sequence.  For example, pages in a book
     (iterable) and a bookmark (iterator).</p>
 
-    <p>The important operation on an iterable is iter(), which will return an iterator.
-    And the only operation available on an iterator is next(), which either returns
-    the next value, or raises StopIteration, a special exception that means the iteration
-    is finished.</p>
+    <p>The important operation on an iterable is iter(), which will return an
+    iterator.  And the only operation available on an iterator is next(), which
+    either returns the next value, or raises StopIteration, a special exception
+    that means the iteration is finished.</p>
 
-    <p>Iterators having only one operation is important, because it means Python's
-    generalized iteration mechanism can be applied to as broad a range of data as possible.
-    You can't ask if there will be a next value, you can skip ahead values, you can't
-    rewind the stream, you can't ask what the last value was, and so on and so on.</p>
+    <p>Iterators having only one operation is important, because it means
+    Python's iteration mechanism can be applied to as broad a range of data as
+    possible.  You can't ask if there will be a next value, you can skip ahead
+    values, you can't rewind the stream, you can't ask what the last value was,
+    and so on and so on.</p>
 
-    <p>All you can do is ask for the next value, and you'll either get one, or you'll 
-    get a StopIteration exception.</p>
+    <p>All you can do is ask for the next value, and you'll either get one, or
+    you'll get a StopIteration exception.</p>
 
 </div><!-- }}} -->
 
@@ -1419,6 +1426,14 @@
             # ...
     </pre>
 </div>
+
+<div class="text"><!-- {{{ -->
+    <p>With the low-level next() operation, we can use iterables in other ways
+    than just looping over them entirely.  For example, with an open file,
+    we can read the first line with next(), then use a for loop to read the
+    rest of the file.</p>
+
+</div><!-- }}} -->
 
 <div class="slide">
     <h1>Numbering objects</h1>
@@ -1437,8 +1452,18 @@
         def __init__(self):
             self.num = next(self.serial)
     </pre>
-
 </div>
+
+<div class="text"><!-- {{{ -->
+    <p>As another example of using next(), say we want a class that assigns
+    numbers to each object.  A typical way to do it is to use an integer class
+    attribute, which is incremented for each object.</p>
+
+    <p>A cleaner way to do it is to use an itertools.count() iterator.  With
+    each object we pull the next number using next().</p>
+
+</div><!-- }}} -->
+
 
 <div class="slide">
     <h1>Making your object iterable</h1>
@@ -1457,6 +1482,22 @@
         # ...
     </pre>
 </div>
+
+<div class="text"><!-- {{{ -->
+    <p>The ultimate way to abstract your iterations is to make your own objects
+    iterable.  By implementing the special method __iter__, your object is
+    iterable.  All __iter__ has to do is return an iterator of some kind.</p>
+
+    <p>The simplest way to do that is to use the iter() function on some
+    collection you have.  Here we have a self.contents list, and our __iter__
+    can simply return iter(self.contents).</p>
+
+    <p>Once we do that, our object can be iterated just like any other Python
+    value.  Here we use it in a for loop, but it can also be used in all the
+    other ways iterators can.<?p>
+
+</div><!-- }}} -->
+
 
 <div class="slide">
     <h1>__iter__ generators</h1>
@@ -1478,6 +1519,26 @@
     </pre>
     
 </div>
+
+<div class="text"><!-- {{{ -->
+    <p>A more powerful way to write __iter__ is to use a generator.  Remember
+    that calling a generator returns an iterator, just what __iter__ has to
+    do.</p>
+
+    <p>Here our to-do list has a list of tasks, and iterating the list produces
+    the tasks that are not done.</p>
+
+    <p>Your object can be iterable in more than one way.  You can have methods
+    that produce iterators as well.  Here our to-do list has an .all() method
+    that returns all the tasks, simply by returning an iterator from the
+    self.tasks list.  The .done() method returns the done tasks, using a
+    feature we haven't seen yet, a generator expression.</p>
+
+    <p>I used three different techniques for these three iterator methds, just
+    as a demonstration of a range of possibilities.</p>
+
+</div><!-- }}} -->
+
 
 
 <div class="slide">
@@ -1517,9 +1578,10 @@
 
 <div class="slide">
     <h1>sum(slides)</h1>
-    <p>Iteration is fundamental to programming</p>
-    <p>Python has a clean powerful model for iteration</p>
-    <p>Modularize your iterations!</p>
+    <p class="incremental">Iteration is fundamental to programming</p>
+    <p class="incremental">Python has a clean powerful model for iteration</p>
+    <p class="incremental">Be direct</p>
+    <p class="incremental">Abstract your iterations!</p>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -1530,6 +1592,13 @@
     and more powerful.</p>
 
 </div><!-- }}} -->
+
+<div class="slide title" layout="clean">
+    <h1>Questions?</h1>
+    <h2>Ned Batchelder</h2>
+    <h2>http://bit.ly/pyiter</h2>
+</div>
+
 
 <!--
     <ul>
