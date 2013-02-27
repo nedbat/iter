@@ -28,5 +28,5 @@ publish: $(PX) pngs
 	cp -f $(PX) $(WEBHOME)
 	cp -f $(PNG_DIR)/* $(WEBHOME)
 	cp -f $(SLIDE_HTML) $(SUPPORT) $(WEBPREZHOME)
-	svn export --force slippy $(WEBPREZHOME)/slippy
-	svn export --force highlight $(WEBPREZHOME)/highlight
+	cp -rf slippy $(WEBPREZHOME)
+	cp -rf highlight $(WEBPREZHOME)

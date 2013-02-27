@@ -36,7 +36,7 @@ def slippy_to_px(tname, fname, fout):
     for div in lh.getroot().cssselect("div.text, div.slide"):
         if has_class(div, "slide"):
             title = div.cssselect("h1")[0].text_content()
-            if has_class(div, "title") and not has_class(div, "preztitle"):
+            if has_class(div, "section"):
                 h1 = out.add_element("h1")
                 h1.text = title
                 h1.tail = "\n\n"
