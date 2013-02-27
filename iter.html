@@ -393,12 +393,12 @@
         print v
         i += 1
     </pre>
-    <img src="rube.png" class="incremental" style="position:absolute;top:1em;right:1em;"/>
     <pre class="python incremental">
     for i in range(len(my_list)):
         v = my_list[i]
         print v
     </pre>
+    <img src="rube.png" class="incremental" style="position:absolute;top:1em;right:1em;"/>
     <pre class="python incremental">
     for v in my_list:
         print v
@@ -454,10 +454,11 @@
         statements
     </pre>
 
-    <p>Execute statements once for each value in iterable</p>
-    <p>Iterable produces a stream of values</p>
-    <p>Iterable decides what values it produces</p>
-    <p>Lots of different things are iterable</p>
+    <p class="incremental">Iterable produces a stream of values</p>
+    <p class="incremental">Assign stream values to name</p>
+    <p class="incremental">Execute statements once for each value in iterable</p>
+    <p class="incremental">Iterable decides what values it produces</p>
+    <p class="incremental">Lots of different things are iterable</p>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -591,54 +592,6 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>Other uses for iterables</h1>
-    <pre class="python">
-    new_list = list(iterable)
-    </pre>
-    <pre class="python incremental">
-    results = [f(x) for x in iterable]
-    </pre>
-    <pre class="python incremental">
-    total = sum(iterable)
-    </pre>
-    <pre class="python incremental">
-    smallest = min(iterable)
-    largest = max(iterable)
-    </pre>
-    <pre class="python incremental">
-    combined = "".join(iterable)
-    </pre>
-</div>
-
-<div class="text"><!-- {{{ -->
-    <p>Python uses iterables in lots of places, not just in for loops.  For
-    example, the list() function creates a list using the values it gets from
-    its iterable argument. Keep in mind, the argument can be any iterable.
-    list(my_dict) will produce a list of the dictionary's keys.
-    list(my_open_file) will produce a list of the lines of the file, and so
-    on.</p>
-
-    <p>List comprehensions are a concise way to create a list using a 
-    computation on an iterable.  They are very powerful, but are outside the
-    scope of this presentation.</p>
-
-    <p>The sum() function takes an iterable, and returns the sum of all the
-    values it finds.  The iterable has to be a stream of things that can be
-    added.  The min() function takes an iterable of comparable values (such as
-    strings or numbers), and returns the smallest value in the stream.  Of
-    course there is a max() function as well, which returns the largest
-    value.</p>
-
-    <p>The join method on a string takes a stream of strings, and joins them
-    all together into one long string.</p>
-
-    <p>These are just a few examples of using iterables outside of for loops,
-    as streams of values that can be passed to functions, computed with,
-    and so on.</p>
-
-</div><!-- }}} -->
-
-<div class="slide">
     <h1>Stdlib has interesting iterables</h1>
     <pre class="python">
     for match in re.finditer(pattern, string):
@@ -693,8 +646,56 @@
 
 </div><!-- }}} -->
 
+<div class="slide">
+    <h1>Other uses for iterables</h1>
+    <pre class="python">
+    new_list = list(iterable)
+    </pre>
+    <pre class="python incremental">
+    results = [f(x) for x in iterable]
+    </pre>
+    <pre class="python incremental">
+    total = sum(iterable)
+    </pre>
+    <pre class="python incremental">
+    smallest = min(iterable)
+    largest = max(iterable)
+    </pre>
+    <pre class="python incremental">
+    combined = "".join(iterable)
+    </pre>
+</div>
+
+<div class="text"><!-- {{{ -->
+    <p>Python uses iterables in lots of places, not just in for loops.  For
+    example, the list() function creates a list using the values it gets from
+    its iterable argument. Keep in mind, the argument can be any iterable.
+    list(my_dict) will produce a list of the dictionary's keys.
+    list(my_open_file) will produce a list of the lines of the file, and so
+    on.</p>
+
+    <p>List comprehensions are a concise way to create a list using a 
+    computation on an iterable.  They are very powerful, but are outside the
+    scope of this presentation.</p>
+
+    <p>The sum() function takes an iterable, and returns the sum of all the
+    values it finds.  The iterable has to be a stream of things that can be
+    added.  The min() function takes an iterable of comparable values (such as
+    strings or numbers), and returns the smallest value in the stream.  Of
+    course there is a max() function as well, which returns the largest
+    value.</p>
+
+    <p>The join method on a string takes a stream of strings, and joins them
+    all together into one long string.</p>
+
+    <p>These are just a few examples of using iterables outside of for loops,
+    as streams of values that can be passed to functions, computed with,
+    and so on.</p>
+
+</div><!-- }}} -->
+
 <div class="slide section">
-    <h1>~ Iteration challenges ~</h1>
+    <h1>~ Common questions ~</h1>
 </div>
 
 <div class="slide">
@@ -732,7 +733,7 @@
 
 </div><!-- }}} -->
 
-
+<!-- {{{ deleted 
 <div class="slide">
     <h1>For loop assignment</h1>
     <pre class="python">
@@ -749,7 +750,7 @@
     </pre>
 </div>
 
-<div class="text"><!-- {{{ -->
+<div class="text">
     <p>A for loop actually acts like an assignment statement.  An assignment
     has a name on the left side of the equals sign, and a value on the right
     side.  Instead of a name and a value, the for loop has a name and a stream
@@ -763,7 +764,7 @@
     <p>We can use this behavior with Python's powerful assignment syntax to
     get more powerful loops.</p>
 
-</div><!-- }}} -->
+</div>
 
 <div class="slide">
     <h1>Multiple assignment</h1>
@@ -778,7 +779,7 @@
     </pre>
 </div>
 
-<div class="text"><!-- {{{ -->
+<div class="text">
     <p>Python's assignment statement is actually more versatile than just a
     name and a value.  You can assign to more than one name at once if the
     right-hand side also has a number of values, and there are as many values
@@ -791,7 +792,7 @@
     assignment statement. The right-hand value is a tuple of two values,
     so the two elements (1, 2) are assigned to the two names (a, b).</p>
 
-</div><!-- }}} -->
+</div>
 
 <div class="slide">
     <h1>Multiple loop assignment</h1>
@@ -814,7 +815,7 @@
     </pre>
 </div>
 
-<div class="text"><!-- {{{ -->
+<div class="text">
     <p>Since a for loop is like an assignment statement, and assignment
     statements can assign to more than one name at once, for loops can also
     assign to more than one name at once.</p>
@@ -834,7 +835,7 @@
     the number of names matching the number of values applies to the tuples,
     not to the stream. This for loop can handle any number of pairs.</p>
 
-</div><!-- }}} -->
+</div> }}} -->
 
 <div class="slide">
     <h1>enumerate() makes useful pairs</h1>
@@ -885,14 +886,20 @@
 
 <div class="slide">
     <h1>Iteration vs indexing</h1>
+    <p>Limited:</p>
     <pre class="python">
     for i in range(len(my_list)):
         v = my_list[i]    # indexing!
         print i, v
     </pre>
+    <p>More powerful:</p>
     <pre class="python">
     for i, v in enumerate(iterable):
         print i, v
+    </pre>
+    <pre class="python">
+    for linenum, line in enumerate(f, start=1):
+        #...
     </pre>
 </div>
 
@@ -907,6 +914,20 @@
     powerful.</p>
 
 </div><!-- }}} -->
+
+<div class="slide">
+    <h1>The other bad way</h1>
+    <pre class="python">
+    i = 0
+    for v in iterable:
+        print i, v
+        i += 1
+    </pre>
+    <div class='incremental'>
+    <img src="sidecar.png" style="position:absolute;top:1em;right:1em;"/>
+    <p>Stay focused!</p>
+    </div>
+</div>
 
 <div class="slide">
     <h1>How do I loop over two lists?</h1>
