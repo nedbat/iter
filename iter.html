@@ -162,42 +162,44 @@
     <!-- Init code -->
     <script type="text/javascript">
         $(function() {
-            $(".slide").slippy({
-                // settings go here
-                // possible values are:
-                //  - animLen, duration for default animations (0 = disabled)
-                //  - animInForward, receives a slide and animates it
-                //  - animInRewind, receives a slide and animates it
-                //  - animOutForward, receives a slide and animates it
-                //  - animOutRewind, receives a slide and animates it
-                //  - baseWidth, defines the base for img resizing, if you don't want only
-                //    full-width images, specify this as the pixel width of a slide so that
-                //    images are scaled properly (default is 620px wide)
-                //  - ratio, defines the width/height ratio of the slides, defaults to 1.3 (620x476)
-                //  - margin, the fraction of screen to use as slide margin, defaults to 0.15
-                margin: 0.04,
-                incrementalBefore: function (el) {
-                    $(el).css({ opacity: 0.01 });
-                },
-                animInForward: function (slide) {
-                    var slide = $(slide);
-                    if (slide.hasClass("fadein")) {
-                        slide.css('opacity', '0').css('left', '50%').animate({opacity: '1'}, 350);
+            if ($("body.slides").length) {
+                $(".slide").slippy({
+                    // settings go here
+                    // possible values are:
+                    //  - animLen, duration for default animations (0 = disabled)
+                    //  - animInForward, receives a slide and animates it
+                    //  - animInRewind, receives a slide and animates it
+                    //  - animOutForward, receives a slide and animates it
+                    //  - animOutRewind, receives a slide and animates it
+                    //  - baseWidth, defines the base for img resizing, if you don't want only
+                    //    full-width images, specify this as the pixel width of a slide so that
+                    //    images are scaled properly (default is 620px wide)
+                    //  - ratio, defines the width/height ratio of the slides, defaults to 1.3 (620x476)
+                    //  - margin, the fraction of screen to use as slide margin, defaults to 0.15
+                    margin: 0.04,
+                    incrementalBefore: function (el) {
+                        $(el).css({ opacity: 0.01 });
+                    },
+                    animInForward: function (slide) {
+                        var slide = $(slide);
+                        if (slide.hasClass("fadein")) {
+                            slide.css('opacity', '0').css('left', '50%').animate({opacity: '1'}, 350);
+                        }
+                        else {
+                            slide.css('left', '150%').animate({left: '50%'}, 350);
+                        }
+                    },
+                    animOutForward: function(slide) {
+                        var slide = $(slide);
+                        if (slide.hasClass("fadeout")) {
+                            slide.animate({opacity: '1'}, 350).animate({left: '-50%'}, 0);
+                        }
+                        else {
+                            slide.animate({left: '-50%'}, 350);
+                        }
                     }
-                    else {
-                        slide.css('left', '150%').animate({left: '50%'}, 350);
-                    }
-                },
-                animOutForward: function(slide) {
-                    var slide = $(slide);
-                    if (slide.hasClass("fadeout")) {
-                        slide.animate({opacity: '1'}, 350).animate({left: '-50%'}, 0);
-                    }
-                    else {
-                        slide.animate({left: '-50%'}, 350);
-                    }
-                }
-            });
+                });
+            }
 
             $('pre').each(function (i, e) {
                 hljs.highlightBlock(e, '    ');
@@ -212,7 +214,6 @@
                 $e.html(h);
             });
 
-            //$("pre").lineselect({ lines: "span.line" });
             $("div.slide").lineselect({ lines: "pre span.line" });
         });
     </script>
@@ -258,6 +259,22 @@
             color: #666;
             margin-top: 2em;
         }
+        .slide.section {
+            background-color: #ff8;
+        }
+        .slide.section h1 {
+            font-family: "Open Sans", sans-serif;
+            font-weight: 700;
+            margin-top: 3em;
+            font-size: 200%;
+            text-align: center;
+        }
+        .slide.section h2 {
+            text-align: center;
+            font-size: 125%;
+            color: #666;
+            margin-top: 2em;
+        }
         .slide p {
             text-align: left;
             margin-top: 1em;
@@ -283,13 +300,13 @@
         .slide pre {
             font-family: Consolas, monaco, monospace;
             margin-top: 1em;
-            background: #ccf;
+            background: #aaf;
             padding: .25em .25em;
             line-height: 1.15;
         }
 
         .slide pre.python {
-            background: #cfc;
+            background: #afa;
         }
 
         pre .selected {
@@ -304,10 +321,29 @@
             list-style: none;
             margin-top: .5em;
         }
+
+        body.notes {
+            overflow: auto;
+            background: white;
+        }
+        .notes .slide {
+            position: static;
+            left: auto;
+            top: auto;
+            width: 20em;
+            height: auto;
+            border: 2px solid #888;
+            padding: 1em 2em;
+            margin: 1em 1em;
+            font-size: 100%;
+        }
+        .notes img {
+            display: none;
+        }
     </style>
 </head>
 <!-- }}} -->
-<body>
+<body class="slides">
 
 <!--
 
@@ -342,6 +378,10 @@
     <p>Iteration is everywhere</p>
     <p>Be direct</p>
     <p>Write more abstractions</p>
+</div>
+
+<div class="slide section">
+    <h1>~ Iteration basics ~</h1>
 </div>
 
 <div class="slide">
@@ -414,10 +454,10 @@
         statements
     </pre>
 
-    <p>Iterable: provides a stream of values</p>
-    <p>Assigns next value to name</p>
-    <p>Execute statements</p>
-    <p>Repeat until done</p>
+    <p>Execute statements once for each value in iterable</p>
+    <p>Iterable produces a stream of values</p>
+    <p>Iterable decides what values it produces</p>
+    <p>Lots of different things are iterable</p>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -433,14 +473,6 @@
     all sorts of values.  A key idea in this talk is that you can often re-shape
     your iterations to use the for loop more powerfully.</p>
 
-</div><!-- }}} -->
-
-<div class="slide">
-    <h1>Iterables</h1>
-    <p>Objects decide how they will be iterated</p>
-</div>
-
-<div class="text"><!-- {{{ -->
     <p>An iterable in Python is any value that can provide a stream of values.
     In our first example, the list of numbers was the iterable, but there
     are lots of other examples.</p>
@@ -450,8 +482,8 @@
 <div class="slide fadeout">
     <h1>Lists &rArr; elements</h1>
     <pre class="python">
-    for v in [1, 2, 3, 4]:
-        print v
+    for e in [1, 2, 3, 4]:
+        print e
     </pre>
     <pre>
     1
@@ -471,8 +503,8 @@
 <div class="slide fadein fadeout">
     <h1>Strings &rArr; characters</h1>
     <pre class="python">
-    for v in "Hello":
-        print v
+    for c in "Hello":
+        print c
     </pre>
     <pre>
     H
@@ -661,6 +693,10 @@
 
 </div><!-- }}} -->
 
+<div class="slide section">
+    <h1>~ Iteration challenges ~</h1>
+</div>
+
 <div class="slide">
     <h1>How do I get the index?</h1>
     <p>No:</p>
@@ -848,10 +884,10 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>Iteratoin vs indexing</h1>
+    <h1>Iteration vs indexing</h1>
     <pre class="python">
     for i in range(len(my_list)):
-        v = my_list[i]    # &rarr; indexing
+        v = my_list[i]    # indexing!
         print i, v
     </pre>
     <pre class="python">
@@ -936,14 +972,9 @@
 <div class="slide">
     <h1>dict() accepts a stream of pairs</h1>
     <pre class="python">
-    dict( [('Anne', 27), ('Betty', 31), ('Carla', 24)] )
-    </pre>
-    <pre>
-    {'Anne': 27, 'Betty': 31, 'Carla': 24}
-    </pre>
-    <pre class="python">
     names = ["Anne", "Betty", "Carla"]
     ages = [27, 31, 24]
+
     dict(zip(names, ages))
     </pre>
     <pre>
@@ -978,7 +1009,7 @@
     print max(tall_buildings, key=lambda pair: pair[1])
     </pre>
     <pre>
-    Burj Khalifa
+    ('Burj Khalifa', 828)
     </pre>
     <img src="superman.png" class="incremental" style="position:absolute;top:0em;right:0em;"/>
 
@@ -1000,6 +1031,10 @@
     tall_buildings in a single bound!</p>
 
 </div><!-- }}} -->
+
+<div class="slide section">
+    <h1>~ Customizing iteration ~</h1>
+</div>
 
 <div class="slide">
     <h1>Make your own iteration</h1>
@@ -1269,7 +1304,7 @@
 
             value = spreadsheet.get_value(col, row)
             do_something(value)
-            
+
             if this_is_my_value(value):
                 break   # &larr; ???
     </pre>
@@ -1306,7 +1341,7 @@
     for col, row in range_2d(width, height):
         value = spreadsheet.get_value(col, row)
         do_something(value)
-        
+
         if this_is_my_value(value):
             break
     </pre>
@@ -1360,14 +1395,20 @@
 </div><!-- }}} -->
 
 
+<div class="slide section">
+    <h1>~ Low-level iteration ~</h1>
+</div>
+
+
 <div class="slide">
     <h1>Lower level</h1>
     <p>Iterable: produces an iterator</p>
     <p>Iterator: produces a stream of values</p>
     <pre class="python">
     iterator = iter(iterable)  # iterable.__iter__()
-    value = next(iterator)     # iterator.next()
+    value = next(iterator)     # iterator.next() or .__next__()
     value = next(iterator)
+    ...
     </pre>
     <p>Only operation on iterators is next()</p>
     <!--
@@ -1421,7 +1462,10 @@
     <p>Sometimes helpful</p>
     <pre class="python">
     with open("blah.dat") as f:
+        # Read the first line
         header_line = next(f)
+
+        # Read the rest
         for data_line in f:
             # ...
     </pre>
@@ -1438,6 +1482,7 @@
 <div class="slide">
     <h1>Numbering objects</h1>
     <pre class="python">
+    # OK
     class Thing(object):
         serial = 0
 
@@ -1446,6 +1491,7 @@
             Thing.serial += 1
     </pre>
     <pre class="python">
+    # Better
     class Thing(object):
         serial = itertools.count()
 
@@ -1494,7 +1540,7 @@
 
     <p>Once we do that, our object can be iterated just like any other Python
     value.  Here we use it in a for loop, but it can also be used in all the
-    other ways iterators can.<?p>
+    other ways iterators can.</p>
 
 </div><!-- }}} -->
 
@@ -1517,7 +1563,7 @@
         def done(self):
             return (t for t in self.tasks if t.done)
     </pre>
-    
+
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -1540,7 +1586,11 @@
 </div><!-- }}} -->
 
 
+<div class="slide section">
+    <h1>~ Wrapping up ~</h1>
+</div>
 
+<!--
 <div class="slide">
     <h1>Other topics</h1>
     <p>The underlying iterator protocol: iter() and next()</p>
@@ -1550,6 +1600,7 @@
     <p>itertools</p>
     <p>Lazy vs. list</p>
 </div>
+-->
 
 <div class="text"><!-- {{{ -->
     <p>There is much more in this topic than can be covered in a short talk:</p>
@@ -1578,10 +1629,11 @@
 
 <div class="slide">
     <h1>sum(slides)</h1>
-    <p class="incremental">Iteration is fundamental to programming</p>
+    <p class="incremental">Iteration is everywhere</p>
     <p class="incremental">Python has a clean powerful model for iteration</p>
     <p class="incremental">Be direct</p>
-    <p class="incremental">Abstract your iterations!</p>
+    <p class="incremental">Customize your iterations!</p>
+    <img src="superman.png" class="incremental" style="position:absolute;top:0em;right:0em;"/>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -1593,10 +1645,11 @@
 
 </div><!-- }}} -->
 
-<div class="slide title" layout="clean">
+<div class="slide title" layout="clean" style="background-color: #edf">
     <h1>Questions?</h1>
-    <h2>Ned Batchelder</h2>
-    <h2>http://bit.ly/pyiter</h2>
+    <h2>Ned Batchelder<br/><br/>
+    http://bit.ly/pyiter<br/>
+    @nedbat</h2>
 </div>
 
 
