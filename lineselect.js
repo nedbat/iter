@@ -67,12 +67,13 @@
             selected -= 1;
             break;
 
+        case 190:   // .: deselect
         case 88:    // X: deselect
             container.find("."+sub_class).removeClass("selected");
             return;
 
         default:
-            //console.log('down: ' + e.keyCode);
+            console.log('down: ' + e.keyCode);
             return;
         }
 
