@@ -1075,6 +1075,13 @@
     <h1>~ Customizing iteration ~</h1>
 </div>
 
+<div class="text"><!-- {{{ -->
+    <p>We've seen the power of Python's iteration primitives.  Let's talk about
+    ways to customize your iterations.</p>
+
+</div><!-- }}} -->
+
+
 <div class="slide">
     <h1>Make your own iteration</h1>
     <pre class="python">
@@ -1084,9 +1091,9 @@
             do_something(n)
     </pre>
     <pre class="python incremental">
-    def evens(seq):
+    def evens(stream):
         them = []
-        for n in seq:
+        for n in stream:
             if n % 2 == 0:
                 them.append(x)
         return them
@@ -1103,20 +1110,21 @@
     loop over the numbers, and test each to see if it is even. Only if it is,
     do we perform our action.</p>
 
-    <p>An alternative is to write a function that accepts a sequence, and produces
-    the new sequence we want.  The evens() function does this.  It iterates
-    over its argument, making a list of the even values.  Then we can use it
-    in our for loop to iterate over the even numbers directly.</p>
+    <p>An alternative is to write a function that accepts a sequence, and
+    produces the new sequence we want.  The evens() function does this.  It
+    iterates over its argument, making a list of the even values.  Then we can
+    use it in our for loop to iterate over the even numbers directly.</p>
 
     <p>This example has a problem, namely, that is makes an actual list of the
     even values.  We'll see in a bit how to avoid this.</p>
 
-    <p>In this case, the test for an even number in the loop doesn't seem burdensome, but
-    if the test were more complicated, or if it had to be performed in many places,
-    it would be a clear win to abstract the selection into a function like evens().</p>
+    <p>In this case, the test for an even number in the loop isn't burdensome,
+    but this is a toy example.  If the test were more complicated, or if it had
+    to be performed in many places, it would be a clear win to abstract the
+    selection into a function like evens().</p>
 
-    <p>By writing evens(), we're taking control of our iterations, and designing
-    new sequences to iterate over.</p>
+    <p>By writing evens(), we're abstracting our iteration, and creating new
+    sequences to iterate over.</p>
 
 </div><!-- }}} -->
 
@@ -1141,15 +1149,14 @@
     <p>Generators are a way to create your own iterables by writing a
     function.</p>
 
-    <p>In a normal function, calling the function returns one value, with the
-    return statement.  A generator looks just like a function, but instead of a
-    return statement, it has one or more yield statements.  Calling the
-    function creates an iterable, and iterating it runs the code in the
-    function.  Each yield statement executed produces another value in the
-    stream.</p>
+    <p>A normal function returns one value, with the return statement.  A
+    generator looks just like a function, but instead of a return statement, it
+    has one or more yield statements.  Calling the generator function creates
+    an iterable, and iterating it runs the code in the function.  Each yield
+    statement executed produces another value in the stream.</p>
 
-    <p>Here's an example of a extremely simple generator, just containing two
-    yield statements.  If you iterate it with a for loop, you can see that
+    <p>Here's a toy example of a generator, just containing two yield
+    statements.  If you iterate it with a for loop, you can see that
     hello_world() produced a stream of two values, "Hello", and "world".</p>
 
     <p>Real generators are not this simple, typically the body of the function
@@ -1306,32 +1313,34 @@
 </div>
 
 <div class="text"><!-- {{{ -->
-    <p>Our line-processing program works just fine, but it mixed together two 
-    concerns. The first is, what are the interesting lines in the file, and which should
-    be ignored?  Second, what should we do with the interesting lines?  These two
-    questions may have nothing to do with each other.  You may need to re-use the
-    first, for example, in a larger program that processes a few different kinds
-    of text files.</p>
+    <p>Our line-processing program works just fine, but it mixed together two
+    concerns. The first is, what are the interesting lines in the file, and
+    which should be ignored?  Second, what should we do with the interesting
+    lines?  These two questions may have nothing to do with each other.  You
+    may need to re-use the first, for example, in a larger program that
+    processes a few different kinds of text files.</p>
 
-    <p>Using a generator, we can split this loop into two parts.  The first part,
-    which lines are interesting, can be implemented as a generator.  Our interesting_lines()
-    takes an open file and loops over its lines.  It uses the same code as before to 
-    skip over comment or blank lines, but then instead of processing the interesting line,
-    it simply yields it.</p>
+    <p>Using a generator, we can split this loop into two parts.  The first
+    part, which lines are interesting, can be implemented as a generator.  Our
+    interesting_lines() generator takes an open file and loops over its lines.
+    It uses the same code as before to skip over comment or blank lines, but
+    then instead of processing the interesting line, it simply yields it.</p>
 
-    <p>Now we can use interesting_lines(f) in a for loop, and the loop will only see
-    the interesting lines, all the uninteresting stuff has been skipped in the generator.
-    This makes it easy for us to reuse the line-skipping logic in other loops.</p>
+    <p>Now we can use interesting_lines(f) in a for loop, and the loop will
+    only see the interesting lines, all the uninteresting stuff has been
+    skipped in the generator.  This makes it easy for us to reuse the
+    line-skipping logic in other loops.</p>
 
-    <p>Notice that our generator interesting_lines() is actually a pure filter: 
-    it accepts a line-producing iterable of any sort, it doesn't have to be an open file.
-    And it produces a stream of lines, by picking the ones it likes from the input
-    stream.</p>
+    <p>Notice that our generator interesting_lines() is actually a pure filter:
+    it accepts a line-producing iterable of any sort, it doesn't have to be an
+    open file.  And it produces a stream of lines, by picking the ones it likes
+    from the input stream.</p>
 
-    <p>Notice also that we have re-thought our iteration: in the original code, we were
-    iterating over all the lines in the file, and "manually" skipping over the uninteresting
-    ones.  With our new generator, we can think instead of iterating over the interesting
-    lines in the file.  This lets us work at a higher level of abstraction.</p>
+    <p>Notice also that we have re-thought our iteration: in the original code,
+    we were iterating over all the lines in the file, and "manually" skipping
+    over the uninteresting ones.  With our new generator, we can think instead
+    of iterating over the interesting lines in the file.  This lets us work at
+    a higher level of abstraction.</p>
 
 </div><!-- }}} -->
 
@@ -1356,14 +1365,15 @@
     over the columns.  Together the two loop variables can be used to access a
     cell in the spreadsheet.</p>
 
-    <p>There's a problem with this, though: suppose we are checking the cells for
-    some condition, and when we find the condition, we want to stop looking through
-    cells.  There's no nice way to break out of two loops at once.  The break statement
-    shown here will only break out of the column loop, and will leave the row loop
-    untouched, so the search will continue from the beginning of the next row.</p>
+    <p>There's a problem with this, though: suppose we are checking the cells
+    for some condition, and when we find the condition, we want to stop looking
+    through cells.  There's no nice way to break out of two loops at once.  The
+    break statement shown here will only break out of the column loop, and will
+    leave the row loop untouched, so the search will continue from the
+    beginning of the next row.</p>
 
-    <p>There are ways to write the code so that both loops will end, but they are
-    messy and confusing.</p>
+    <p>There are ways to write the code so that both loops will end, but they
+    are messy and confusing.</p>
 
 </div><!-- }}} -->
 
@@ -1408,8 +1418,8 @@
     English equivalent of our double loop. Instead, you'd say, "look at every
     cell in the spreadsheet," which is what our new loop says.</p>
 
-    <p>Our generator lets us define "look at every cell" abstractly so that our main
-    program can use the most expressive way to get the job done.</p>
+    <p>Our generator lets us define "look at every cell" abstractly so that our
+    main program can use the most expressive way to get the job done.</p>
 
 </div><!-- }}} -->
 
@@ -1430,6 +1440,11 @@
     method that provided an iterator over all cells.  Notice our range_2d
     solution still meant talking about integers, though they were pairs of
     integers.</p>
+
+    <p>Iterating over pairs of integers when we really want to be iterating
+    over cells is just another form of Rube Goldberg thinking.  Much better is
+    to add custom methods to compound objects that let you iterate directly
+    over the values you're interested in.</p>
 
 </div><!-- }}} -->
 
@@ -1477,8 +1492,8 @@
     consist of a number of values.  They can't actually be looped over
     directly, to do that, we ask an iterable for an iterator.  You can think of
     an iterable as an object with values in a sequence, and an iterator as the
-    current position within that sequence.  For example, pages in a book
-    (iterable) and a bookmark (iterator).</p>
+    current position within that sequence.  For example, the pages in a book
+    are iterable, and the bookmark is the iterator.</p>
 
     <p>The important operation on an iterable is iter(), which will return an
     iterator.  And the only operation available on an iterator is next(), which
@@ -1487,12 +1502,13 @@
 
     <p>Iterators having only one operation is important, because it means
     Python's iteration mechanism can be applied to as broad a range of data as
-    possible.  You can't ask if there will be a next value, you can skip ahead
-    values, you can't rewind the stream, you can't ask what the last value was,
-    and so on and so on.</p>
+    possible.  You can't ask if there will be a next value, you can't skip
+    ahead values, you can't rewind the stream, you can't ask what the last
+    value was, and so on and so on.</p>
 
     <p>All you can do is ask for the next value, and you'll either get one, or
-    you'll get a StopIteration exception.</p>
+    you'll get a StopIteration exception.  Some iterables provide more
+    operations, but the only one that is guaranteed is next().</p>
 
 </div><!-- }}} -->
 
@@ -1515,6 +1531,10 @@
     than just looping over them entirely.  For example, with an open file,
     we can read the first line with next(), then use a for loop to read the
     rest of the file.</p>
+
+    <p>Notice the for loop doesn't re-read the first line in the file.  An open
+    file object is an iterator, it knows where it is in the file, and pulling
+    values from it will give you the next line at the current position.</p>
 
 </div><!-- }}} -->
 
@@ -1575,8 +1595,8 @@
     iterable.  All __iter__ has to do is return an iterator of some kind.</p>
 
     <p>The simplest way to do that is to use the iter() function on some
-    collection you have.  Here we have a self.contents list, and our __iter__
-    can simply return iter(self.contents).</p>
+    collection you have.  Here we have a self.tasks list, and our __iter__ can
+    simply return iter(self.tasks).</p>
 
     <p>Once we do that, our object can be iterated just like any other Python
     value.  Here we use it in a for loop, but it can also be used in all the
@@ -1611,17 +1631,18 @@
     that calling a generator returns an iterator, just what __iter__ has to
     do.</p>
 
-    <p>Here our to-do list has a list of tasks, and iterating the list produces
-    the tasks that are not done.</p>
+    <p>Here we've changed our to-do list to only produce the not-done tasks
+    when it's iterated.</p>
 
-    <p>Your object can be iterable in more than one way.  You can have methods
-    that produce iterators as well.  Here our to-do list has an .all() method
-    that returns all the tasks, simply by returning an iterator from the
-    self.tasks list.  The .done() method returns the done tasks, using a
-    feature we haven't seen yet, a generator expression.</p>
+    <p>Remember that your object can be iterable in more than one way.  You can
+    have methods that produce iterators as well.  Here our to-do list has an
+    .all() method that returns all the tasks, simply by returning an iterator
+    from the self.tasks list.  The .done() method returns the done tasks, using
+    a feature we haven't seen yet, a generator expression.</p>
 
     <p>I used three different techniques for these three iterator methds, just
-    as a demonstration of a range of possibilities.</p>
+    as a demonstration of a range of possibilities. The power here is in
+    providing customized iteration using all the tools Python gives us.</p>
 
 </div><!-- }}} -->
 
@@ -1671,17 +1692,25 @@
     <h1>sum(slides)</h1>
     <p class="incremental">Iteration is everywhere</p>
     <p class="incremental">Python has a clean powerful model for iteration</p>
-    <p class="incremental">Be direct</p>
     <p class="incremental">Abstract and customize your iterations!</p>
     <img src="superman.png" class="incremental" style="position:absolute;top:0em;right:0em;"/>
 </div>
 
 <div class="text"><!-- {{{ -->
-    <p>To summarize: iteration is a fundamental tool in all programming.  Python
-    has a simple yet powerful model for iteration that is used throughout the
-    language and standard library.  Using the tool that iterables provide,
-    you can re-think your iterations to make them clearer, more concise,
-    and more powerful.</p>
+    <p>To summarize:</p>
+
+    <ul>
+        <li>Iteration is a fundamental tool in all programming.</li>
+
+        <li>Python has a simple yet powerful model for iteration that is used
+        throughout the language and standard library.</li>
+
+        <li>Using the tool that iterables provide, you can re-think your
+        iterations to make them clearer, more concise, and more powerful.</li>
+    </ul>
+
+    <p>Once you start using these tools and ideas, you'll feel like you have
+    superpowers too!</p>
 
 </div><!-- }}} -->
 
