@@ -155,7 +155,7 @@
 
     <script type="text/javascript" src="lineselect.js"></script>
 
-<!-- http://html.adobe.com/edge/webfonts/ -->
+    <!-- http://html.adobe.com/edge/webfonts/ -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
     <!-- }}} -->
 
@@ -300,13 +300,13 @@
         .slide pre {
             font-family: Consolas, monaco, monospace;
             margin-top: 1em;
-            background: #aaf;
+            background: #ccf;
             padding: .25em .25em;
             line-height: 1.15;
         }
 
         .slide pre.python {
-            background: #afa;
+            background: #cfc;
         }
 
         pre .selected {
@@ -345,15 +345,6 @@
 <!-- }}} -->
 <body class="slides">
 
-<!--
-
-    - Talk about the real things
-    - Use Python iteration abstractions
-        - for loop
-        - generators
-
--->
-
 <div class="slide title" layout="clean">
     <h1>Loop like a native</h1>
     <h2>Ned Batchelder</h2>
@@ -363,14 +354,6 @@
 <div class="text"><!-- {{{ -->
     <p>A talk for PyCon 2013.</p>
 
-    <p>Python has a nice model of abstract iteration which can be used to
-    increase the expressiveness of your programs.  Python's iteration tools are
-    one of the most underused features of the language, especially by
-    programmers coming from other "similar" languages.</p>
-
-    <p>My goal here is to show Python iteration in a light that would encourage
-    programmers to explore more of its possibililities.</p>
-
 </div><!-- }}} -->
 
 <div class="slide">
@@ -379,6 +362,22 @@
     <p>Be direct</p>
     <p>Write more abstractions</p>
 </div>
+
+    <p>This talk is billed as Beginner, and sounds like a beginner topic, but I
+    prefer to think of it as Fundamental.  Plenty of expert Python programmers
+    aren't making enough use of the tools I'm going to talk about.</p>
+
+    <p>Python has a nice model of abstract iteration which can be used to
+    increase the expressiveness of your programs.  Python's iteration tools are
+    one of the most underused features of the language, especially by
+    programmers coming from other "similar" languages.</p>
+
+    <p>My goal here is to show Python iteration in a light that would encourage
+    programmers to explore more of its possibililities.</p>
+
+    <p>All programs iterate over data, of various sorts.  When using iteration,
+    you should be as direct as you can, and you should use more abstractions to
+    make your loops as clear and direcct as you can.</p>
 
 <div class="slide section">
     <h1>~ Iteration basics ~</h1>
@@ -406,18 +405,15 @@
 </div>
 
 <div class="text"><!-- {{{ -->
-    <p>Let's say you have a list of numbers, and you want to print each
-    of them.  One way to do it is shown in the first code sample: start a
-    counter at zero, and as long as the counter is less than the length of the
-    list, access that element of the list, and print it. Then increment the
-    counter, and continue on to the next element.  Eventually, the while loop
-    will run over the whole list.</p>
+    <p>Let's say you have a list of numbers, and you want to print each of
+    them.  One way to do it is shown in the first code sample: start a counter
+    at zero, and as long as the counter is less than the length of the list,
+    access that element of the list, and print it. Then increment the counter,
+    and continue on to the next element.  Eventually, the while loop will run
+    over the whole list.</p>
 
-    <p>Note we used "less than the length of the list" because list indexes run
-    from zero to len-1.</p>
-
-    <p>This style of iteration works, and is a least common denominator: this
-    way of thinking about the loop can be written in almost any language.</p>
+    <p>This while loop works, and is a least common denominator: this way of
+    thinking about the loop can be written in almost any language.</p>
 
     <p>In Python, there's a simpler way to have a loop that ranges from zero to
     N-1. You can use the idiom "for i in range(N)", as we see next.  Here i
@@ -433,8 +429,8 @@
     my_list.  Why are we talking about integers?  This is like a Rube Goldberg
     machine.  We set up a mechanism to give us integers, when we don't want the
     integers at all, so the first thing we do with each integer is turn it into
-    a list element.  We might has well have written, "the cat rolls the ball
-    of yarn, which pulls the balloon into the candle..."</p>
+    a list element.  We might has well have written, "the boot kicks the ball
+    into the net, which tips the watering can..."</p>
 
     <p>Rather than iterating over indexes, and using the index i to
     get the value we really want from the list, we can simply loop over the
@@ -471,8 +467,8 @@
 
     <p>On the face of it, this seems simple.  But this simplicity provides
     great power. The for loop can be used in all sorts of situations to iterate
-    all sorts of values.  A key idea in this talk is that you can often re-shape
-    your iterations to use the for loop more powerfully.</p>
+    all sorts of values.  And you can often re-shape your iterations to use the
+    for loop more powerfully.</p>
 
     <p>An iterable in Python is any value that can provide a stream of values.
     In our first example, the list of numbers was the iterable, but there
@@ -586,8 +582,8 @@
     files are consumed, one line at a time.</p>
 
     <p>In this example I've printed repr(line) so you can see that the lines
-    still have a newline at the end, since every byte in the file should be
-    provided somewhere.</p>
+    still have a newline at the end, every byte in the file is provided
+    somewhere.</p>
 
 </div><!-- }}} -->
 
@@ -614,9 +610,8 @@
 </div>
 
 <div class="text"><!-- {{{ -->
-    <p>Not only does Python use iterables in lots of places, but lots of
-    different kinds of values are iterable.  Here are some examples from the
-    standard library.</p>
+    <p>The standard library provides a number of other examples of iterable
+    values.</p>
 
     <p>The re module searches for a regex pattern in a string.  The finditer
     function takes a pattern and a string, and iterates over all the places
@@ -640,8 +635,8 @@
     sequence and cycles around it forever, so the sequence produced here is
     infinite: 17, 17, 17, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, ...</p>
 
-    <p>These are just two examples of use iterables to represent a variety of
-    kinds of iteration, and doing it naturally without resorting to index
+    <p>These are just a few examples of using iterables to represent a variety
+    of kinds of iteration, and doing it naturally without resorting to index
     variables.</p>
 
 </div><!-- }}} -->
@@ -667,16 +662,20 @@
 </div>
 
 <div class="text"><!-- {{{ -->
-    <p>Python uses iterables in lots of places, not just in for loops.  For
-    example, the list() function creates a list using the values it gets from
-    its iterable argument. Keep in mind, the argument can be any iterable.
+    <p>In addition to provide lot of interesting iterable values, Python also
+    uses iterables in lots of places, not just in for loops.  Here are a few
+    examples.</p>
+    
+    <p>The list() function creates a list using the values it gets from its
+    iterable argument. Keep in mind, the argument can be any iterable.
     list(my_dict) will produce a list of the dictionary's keys.
     list(my_open_file) will produce a list of the lines of the file, and so
     on.</p>
 
-    <p>List comprehensions are a concise way to create a list using a 
+    <p>List comprehensions are a concise way to create a list using a
     computation on an iterable.  They are very powerful, but are outside the
-    scope of this presentation.</p>
+    scope of this presentation.  Here we make a list of the values returned by
+    f for each value in the iterable.</p>
 
     <p>The sum() function takes an iterable, and returns the sum of all the
     values it finds.  The iterable has to be a stream of things that can be
@@ -689,8 +688,8 @@
     all together into one long string.</p>
 
     <p>These are just a few examples of using iterables outside of for loops,
-    as streams of values that can be passed to functions, computed with,
-    and so on.</p>
+    as streams of values that can be passed to functions, computed with, and so
+    on.</p>
 
 </div><!-- }}} -->
 
@@ -698,8 +697,15 @@
     <h1>~ Common questions ~</h1>
 </div>
 
+<div class="text"><!-- {{{ -->
+    <p>When learning about Python's iteration, there are common questions that
+    keep coming up.  Let's look at a few.</p>
+
+</div><!-- }}} -->
+
+ 
 <div class="slide">
-    <h1>How do I get the index?</h1>
+    <h1>Q: How do I get the index?</h1>
     <p>No:</p>
     <pre class="python">
     for i in range(len(my_list)):
@@ -728,8 +734,6 @@
     get two values at each iteration: i is the index of the value, and v is 
     the value.  Now we can print the value with its index, again without 
     resorting to iterating over integers.</p>
-
-    <p>To see how it works, lets review some features of Python.</p>
 
 </div><!-- }}} -->
 
@@ -839,25 +843,26 @@
 
 <div class="slide">
     <h1>enumerate() makes useful pairs</h1>
-    <div class='incremental'>
+    <div>
         <pre class="python">
-        names = ["Anne", "Betty", "Carla"]
+        names = ["Eiffel Tower", "Empire State", "Sears Tower"]
         list(enumerate(names))
         </pre>
         <pre>
-        [(0, 'Anne'), (1, 'Betty'), (2, 'Carla')]
+        [(0, 'Eiffel Tower'), 
+         (1, 'Empire State'), 
+         (2, 'Sears Tower')]
         </pre>
     </div>
-    <div class='incremental'>
+    <div>
         <pre class="python">
-        names = ["Anne", "Betty", "Carla"]
         for num, name in enumerate(names):
             print num, name
         </pre>
         <pre>
-        0 Anne
-        1 Betty
-        2 Carla
+        0 Eiffel Tower
+        1 Empire State
+        2 Sears Tower
         </pre>
     </div>
 </div>
@@ -870,8 +875,8 @@
     zero.</p>
 
     <p>In our example, the list "names" is given to enumerate() which iterates
-    the list, giving the values "Anne", "Betty", "Carla".  It pairs those with
-    the number 0, 1, 2, to produce a stream of pairs.</p>
+    the list, giving the values "Eiffel Tower", "Empire State", "Sears Tower".
+    It pairs those with the number 0, 1, 2, to produce a stream of pairs.</p>
 
     <p>In the first code sample, we use list() to make a list of all the values
     enumerate() produces.  This gives us a list of pairs.</p>
@@ -886,21 +891,27 @@
 
 <div class="slide">
     <h1>Iteration vs indexing</h1>
+    <div>
     <p>Limited:</p>
     <pre class="python">
     for i in range(len(my_list)):
         v = my_list[i]    # indexing!
         print i, v
     </pre>
+    </div>
+    <div class='incremental'>
     <p>More powerful:</p>
     <pre class="python">
     for i, v in enumerate(iterable):
         print i, v
     </pre>
+    </div>
+    <div class='incremental'>
     <pre class="python">
     for linenum, line in enumerate(f, start=1):
         #...
     </pre>
+    </div>
 </div>
 
 <div class="text"><!-- {{{ -->
@@ -911,7 +922,7 @@
     100th line, for example.</p>
 
     <p>The enumerate() technique works with any iterable, and so is much more
-    powerful.</p>
+    powerful, in addition to being more compact and direct.</p>
 
 </div><!-- }}} -->
 
@@ -929,21 +940,32 @@
     </div>
 </div>
 
+<div class="text"><!-- {{{ -->
+    <p>By the way, another common style of getting the index of an iterable is
+    show here: keep a separate counter, and increment it to keep it in step
+    with the enumeration.  This is just a goofy sidecar bolted on the side of
+    your loop.  It works, but adds extra complexity.  If the loop is more
+    complex than shown here, it is easy for it to become long enough that the
+    index increment gets lost.  It's much better to keep the loop simple.
+    Fewer moving parts mean fewer bugs.</p>
+
+</div><!-- }}} -->
+
 <div class="slide">
-    <h1>How do I loop over two lists?</h1>
+    <h1>Q: How do I loop over two lists?</h1>
     <pre class="python">
-    names = ["Anne", "Betty", "Carla"]
-    ages = [27, 31, 24]
+    names = ["Eiffel Tower", "Empire State", "Sears Tower"]
+    heights = [324, 381, 442]
 
     for i in range(len(names)):
         name = names[i]
-        age = ages[i]
-        print "%s is %s years old" % (name, age)
+        height = heights[i]
+        print "%s: %s meters" % (name, height)
     </pre>
     <pre class="no-highlight">
-    Anne is 27 years old
-    Betty is 31 years old
-    Carla is 24 years old
+    Eiffel Tower: 324 meters
+    Empire State: 381 meters
+    Sears Tower: 442 meters
     </pre>
 </div>
 
@@ -962,16 +984,13 @@
     <h1>zip() makes pair-wise loops</h1>
     <p>A pair of streams becomes a stream of pairs</p>
     <pre class="python">
-    names = ["Anne", "Betty", "Carla"]
-    ages = [27, 31, 24]
-
-    for name, age in zip(names, ages):
-        print "%s is %s years old" % (name, age)
+    for name, height in zip(names, heights):
+        print "%s: %s meters" % (name, height)
     </pre>
     <pre class="no-highlight">
-    Anne is 27 years old
-    Betty is 31 years old
-    Carla is 24 years old
+    Eiffel Tower: 324 meters
+    Empire State: 381 meters
+    Sears Tower: 442 meters
     </pre>
 </div>
 
@@ -980,10 +999,10 @@
 
     <p>The zip() built-in function takes a pair of streams, and "zips" them
     together to produce a stream of pairs.  In this example, we have two lists:
-    "names" has names in it, and "ages" has ages that go with the names.
-    zip(names, ages) will produce a stream of pairs, each pairing a name with
-    the corresponding age.  By using multiple assignment, we unpack the pairs
-    into the variables name and age.</p>
+    "names" has names in it, and "heights" has heights that go with each name.
+    zip(names, heights) will produce a stream of pairs, each pairing a name
+    with the corresponding height.  Using multiple assignment, we unpack the
+    pairs into the variables name and height.</p>
 
     <p>Notice again that because we don't rely on list indexing, zip() can work
     with arbitrary iterables, not just lists.</p>
@@ -993,13 +1012,15 @@
 <div class="slide">
     <h1>dict() accepts a stream of pairs</h1>
     <pre class="python">
-    names = ["Anne", "Betty", "Carla"]
-    ages = [27, 31, 24]
+    names = ["Eiffel Tower", "Empire State", "Sears Tower"]
+    heights = [324, 381, 442]
 
-    dict(zip(names, ages))
+    dict(zip(names, heights))
     </pre>
     <pre>
-    {'Anne': 27, 'Betty': 31, 'Carla': 24}
+    {'Empire State': 381, 
+     'Sears Tower': 442, 
+     'Eiffel Tower': 324}
     </pre>
 </div>
 
@@ -1007,46 +1028,43 @@
     <p>Here's another example of the power of iterables.  The dict() function
     will accept a stream of key/value pairs, and construct a dictionary from
     them.  If we have two parallel lists, "names" containing strings, and
-    "ages" containing numbers, zip(names, ages) will produce a stream of pairs,
-    and dict() will use that stream, and produce exactly the dictionary we
-    want.</p>
+    "heights" containing numbers, zip(names, heights) will produce a stream of
+    pairs, and dict() will use that stream, and produce exactly the dictionary
+    we want.</p>
 
 </div><!-- }}} -->
 
 <div class="slide">
     <h1>Powerful</h1>
     <pre class="python">
-    tall_buildings = [
-      ("Empire State", 381), ("Sears Tower", 442),
-      ("Burj Khalifa", 828), ("Taipei 101", 509),
-      ...
-      ]
-    print max(ht for name, ht in tall_buildings)
+    tall_buildings = {
+      "Empire State": 381, "Sears Tower": 442,
+      "Burj Khalifa": 828, "Taipei 101": 509,
+      }
     </pre>
-    <pre>
+    <pre class="incremental">
+    >>> print max(tall_buildings.values())
     828
     </pre>
-    <pre class="python">
-    print max(tall_buildings, key=lambda pair: pair[1])
-    </pre>
-    <pre>
+    <pre class="incremental">
+    >>> print max(tall_buildings.items(), key=lambda b: b[1])
     ('Burj Khalifa', 828)
+    </pre>
+    <pre class="incremental">
+    >>> print max(tall_buildings, key=tall_buildings.get)
+    'Burj Khalifa'
     </pre>
     <img src="superman.png" class="incremental" style="position:absolute;top:0em;right:0em;"/>
 
 </div>
 
 <div class="text"><!-- {{{ -->
-    <p>One last example of the power of iteration.  Suppose we have a list of
-    tall buildings.  Each element is a name and a height (in meters).</p>
+    <p>One last example of the power of iteration.  Suppose we've made our
+    dictionary of buildings and their heights.</p>
 
-    <p>We can find the height of the tallest building with an expression in the
-    max() function.  The loop unpacks the name and the height, and creates a
-    stream of just the height. Then the max() function finds the largest
-    height.</p>
-
-    <p>With a different invocation of max(), we can find the name of the
-    tallest building.</p>
+    <p>We can use a few different uses of the max() function to find the
+    greatest height, the name and height of the tallest landmark, or just the
+    name. A great deal of power can be packed into a concise expression.</p>
 
     <p>Python's iteration primitives give you the power to loop over
     tall_buildings in a single bound!</p>
@@ -1142,8 +1160,8 @@
 <div class="slide">
     <h1>Evens generator</h1>
     <pre class="python">
-    def evens(seq):
-        for n in seq:
+    def evens(stream):
+        for n in stream:
             if n % 2 == 0:
                 yield n
     </pre>
@@ -1318,7 +1336,7 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>How do I break out of two loops?</h1>
+    <h1>Q: How do I break out of two loops?</h1>
     <pre class="python">
     for row in range(height):
         for col in range(width):
@@ -1500,6 +1518,7 @@
 
 </div><!-- }}} -->
 
+<!--
 <div class="slide">
     <h1>Numbering objects</h1>
     <pre class="python">
@@ -1521,7 +1540,7 @@
     </pre>
 </div>
 
-<div class="text"><!-- {{{ -->
+<div class="text"> {{{ 
     <p>As another example of using next(), say we want a class that assigns
     numbers to each object.  A typical way to do it is to use an integer class
     attribute, which is incremented for each object.</p>
@@ -1529,23 +1548,23 @@
     <p>A cleaner way to do it is to use an itertools.count() iterator.  With
     each object we pull the next number using next().</p>
 
-</div><!-- }}} -->
+</div>}}} -->
 
 
 <div class="slide">
     <h1>Making your object iterable</h1>
     <pre class="python">
-    class TreasureChest(object):
+    class ToDoList(object):
         def __init__(self):
-            self.contents = []
+            self.tasks = []
 
         def __iter__(self):
-            return iter(self.contents)
+            return iter(self.tasks)
     </pre>
     <pre class="python">
-    chest = TreasureChest()
+    todo = ToDoList()
     ...
-    for treasures in chest:
+    for task in todo:
         # ...
     </pre>
 </div>
@@ -1653,7 +1672,7 @@
     <p class="incremental">Iteration is everywhere</p>
     <p class="incremental">Python has a clean powerful model for iteration</p>
     <p class="incremental">Be direct</p>
-    <p class="incremental">Customize your iterations!</p>
+    <p class="incremental">Abstract and customize your iterations!</p>
     <img src="superman.png" class="incremental" style="position:absolute;top:0em;right:0em;"/>
 </div>
 
