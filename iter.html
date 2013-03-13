@@ -842,7 +842,7 @@
 </div> }}} -->
 
 <div class="slide">
-    <h1>enumerate() makes useful pairs</h1>
+    <h1>A: enumerate() makes useful pairs</h1>
     <div>
         <pre class="python">
         names = ["Eiffel Tower", "Empire State", "Sears Tower"]
@@ -981,7 +981,7 @@
 
 
 <div class="slide">
-    <h1>zip() makes pair-wise loops</h1>
+    <h1>A: zip() makes pair-wise loops</h1>
     <p>A pair of streams becomes a stream of pairs</p>
     <pre class="python">
     for name, height in zip(names, heights):
@@ -1301,7 +1301,7 @@
                 continue
             yield line
     </pre>
-    <pre class="python">
+    <pre class="python incremental">
     with open("my_config.ini") as f:
         for line in interesting_lines(f):
             do_something(line)
@@ -1378,7 +1378,7 @@
 </div><!-- }}} -->
 
 <div class="slide">
-    <h1>Make the double loop single</h1>
+    <h1>A: Make the double loop single</h1>
     <pre class="python">
     def range_2d(width, height):
         """Produce a stream of two-D coordinates."""
