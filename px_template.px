@@ -3,11 +3,17 @@
 <what when="20120424T144700">Created</what>
 </history>
 
+<!--
 <p>This is a presentation I gave at <a href='http://bostonpython.com'>Boston Python</a> in April of 2012.</p>
 
 <p>There's a <a href='http://www.ustream.tv/recorded/22100783'>video of me talking</a>, but you can't read the slides
 in it, so you might want to follow along here.
 Also, clicking the slide images on this page will jump into the full presentation at that point.</p>
+-->
+
+<p>This is a presentation for PyCon 2013.  You can read the slides and text on
+this page, or open the <a href="text/iter/iter.html">actual presentation</a> in
+your browser (use right and left arrows to advance the slides).</p>
 
 <content/>
 
