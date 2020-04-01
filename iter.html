@@ -481,8 +481,8 @@
 <div class="slide fadeout">
     <h1>Lists &rArr; elements</h1>
     <pre class="python">
-    for e in [1, 2, 3, 4]:
-        print(e)
+    for element in [1, 2, 3, 4]:
+        print(element)
     </pre>
     <pre>
     1
@@ -502,8 +502,8 @@
 <div class="slide fadein fadeout">
     <h1>Strings &rArr; characters</h1>
     <pre class="python">
-    for c in "Hello":
-        print(c)
+    for character in "Hello":
+        print(character)
     </pre>
     <pre>
     H
@@ -523,10 +523,10 @@
 <div class="slide fadein fadeout">
     <h1>Dicts &rArr; keys</h1>
     <pre class="python">
-    d = { 'a': 1,  'b': 2,  'c': 3 }
+    dictionary = { 'a': 1,  'b': 2,  'c': 3 }
 
-    for k in d:
-        print(k)
+    for key in dictionary:
+        print(key)
     </pre>
     <pre>
     a
@@ -535,8 +535,8 @@
     </pre>
     <pre class="python">
     # Also:
-    for v in d.values():
-    for k,v in d.items():
+    for value in dictionary.values():
+    for key, value in dictionary.items():
     </pre>
 
 </div>
@@ -1575,7 +1575,7 @@
 <div class="slide">
     <h1>Making your object iterable</h1>
     <pre class="python">
-    class ToDoList(object):
+    class ToDoList:
         def __init__(self):
             self.tasks = []
 
@@ -1609,7 +1609,7 @@
 <div class="slide">
     <h1>__iter__ generators</h1>
     <pre class="python">
-    class ToDoList(object):
+    class ToDoList:
         def __init__(self):
             self.tasks = []
 
